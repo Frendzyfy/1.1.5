@@ -18,7 +18,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-
     }
 
     @Override
@@ -28,12 +27,17 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-
+        User user = new User(name,lastName,age);
+        session.beginTransaction();
+        session.save(user);
+        session.getTransaction().commit();
     }
 
     @Override
     public void removeUserById(long id) {
-
+        session.beginTransaction();
+        session.remove(id);
+        session.getTransaction().commit();
     }
 
     @Override

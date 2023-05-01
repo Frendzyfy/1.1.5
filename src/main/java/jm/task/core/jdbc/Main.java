@@ -13,18 +13,20 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws SQLException {
         UserService us = new UserServiceImpl();
-        try {
-            us.createUsersTable();
-            us.saveUser("Dmitry", "Makarov", (byte) 23);
-            us.saveUser("Andrew", "Matthews", (byte) 25);
-            us.saveUser("Tom", "Hardy", (byte) 27);
-            us.saveUser("John", "Yuk", (byte) 43);
-            List<User> list = us.getAllUsers();
-            list.stream().forEach(x -> System.out.println(x.toString()));
-            us.cleanUsersTable();
-            us.dropUsersTable();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        us.saveUser("Kolya","Pidor", (byte) 23);
+        us.removeUserById(2);
+//        try {
+//            us.createUsersTable();
+//            us.saveUser("Dmitry", "Makarov", (byte) 23);
+//            us.saveUser("Andrew", "Matthews", (byte) 25);
+//            us.saveUser("Tom", "Hardy", (byte) 27);
+//            us.saveUser("John", "Yuk", (byte) 43);
+//            List<User> list = us.getAllUsers();
+//            list.stream().forEach(x -> System.out.println(x.toString()));
+//            us.cleanUsersTable();
+//            us.dropUsersTable();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }
