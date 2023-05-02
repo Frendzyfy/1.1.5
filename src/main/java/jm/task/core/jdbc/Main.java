@@ -11,10 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         UserService us = new UserServiceImpl();
-        us.saveUser("Kolya","Pidor", (byte) 23);
-        us.removeUserById(2);
+        us.dropUsersTable();
+        us.createUsersTable();
+        us.saveUser("Kolya", "testLastName", (byte) 23);
+        us.removeUserById(1L);
+//        us.dropUsersTable();
+//        us.createUsersTable();
+//        us.removeUserById(1);
+//        us.removeUserById(2);
 //        try {
 //            us.createUsersTable();
 //            us.saveUser("Dmitry", "Makarov", (byte) 23);
