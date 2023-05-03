@@ -4,7 +4,9 @@ import jm.task.core.jdbc.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -12,8 +14,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.*;
 public class Util {
-//    private final Configuration configuration = new Configuration().addAnnotatedClass(User.class);
-//    private final SessionFactory sessionFactory = configuration.buildSessionFactory();
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/mydbtest";
@@ -37,7 +37,18 @@ public class Util {
 //        sessionFactory.close();
 //    }
     public static SessionFactory getCurrentSessionFromConfig() {
-        Configuration config = new Configuration().addAnnotatedClass(User.class);
+        getConnection();
+        Configuration config = new Configuration()
+                .setProperty("hibernate.connection.url","jdbc:mysql://localhost:3306/mydbtest")
+                .setProperty("hibernate.connection.username", "root")
+                .setProperty("hibernate.connection.password","root")
+                .setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver")
+                .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
+                .setProperty("hibernate.current_session_context_class", "thread")
+                .addAnnotatedClass(User.class);
+//        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+//                .applySettings(config.getProperties()).build();
+
         SessionFactory sessionFactory = config.buildSessionFactory();
         return sessionFactory;
     }
