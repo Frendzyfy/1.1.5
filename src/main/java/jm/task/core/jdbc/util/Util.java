@@ -36,8 +36,7 @@ public class Util {
 //    public void closeSessionFactory() {
 //        sessionFactory.close();
 //    }
-    public static SessionFactory getCurrentSessionFromConfig() {
-        getConnection();
+    public static SessionFactory getSessionFactory() {
         Configuration config = new Configuration()
                 .setProperty("hibernate.connection.url","jdbc:mysql://localhost:3306/mydbtest")
                 .setProperty("hibernate.connection.username", "root")
@@ -49,7 +48,6 @@ public class Util {
 //        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 //                .applySettings(config.getProperties()).build();
 
-        SessionFactory sessionFactory = config.buildSessionFactory();
-        return sessionFactory;
+        return config.buildSessionFactory();
     }
 }
