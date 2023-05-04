@@ -11,6 +11,7 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
     public final SessionFactory sessionFactory = Util.getSessionFactory();
+    public final Session session = sessionFactory.getCurrentSession();
     public UserDaoHibernateImpl() {
 
     }
@@ -23,8 +24,11 @@ public class UserDaoHibernateImpl implements UserDao {
             Query query = session.createSQLQuery(sql);
             query.executeUpdate();
             session.getTransaction().commit();
-        } catch (RuntimeException e) {
-            System.out.println("Ошибка соединения");
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            throw e;
         }
     }
 
@@ -36,8 +40,11 @@ public class UserDaoHibernateImpl implements UserDao {
             Query query = session.createNativeQuery(sql);
             query.executeUpdate();
             session.getTransaction().commit();
-        } catch (RuntimeException e) {
-            System.out.println("Ошибка соединения");
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            throw e;
         }
     }
 
@@ -48,8 +55,11 @@ public class UserDaoHibernateImpl implements UserDao {
             User user = new User(name,lastName,age);
             session.save(user);
             session.getTransaction().commit();
-        } catch (RuntimeException e) {
-            System.out.println("Ошибка соединения");
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            throw e;
         }
     }
 
@@ -60,8 +70,11 @@ public class UserDaoHibernateImpl implements UserDao {
             User user = session.get(User.class, id);
             session.delete(user);
             session.getTransaction().commit();
-        } catch (RuntimeException e) {
-            System.out.println("Ошибка соединения");
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            throw e;
         }
     }
 
@@ -71,9 +84,11 @@ public class UserDaoHibernateImpl implements UserDao {
             session.beginTransaction();
             List<User> list = session.createQuery("FROM User").getResultList();
             return list;
-        } catch (RuntimeException e) {
-            System.out.println("Ошибка соединения");
-            return null;
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            throw e;
         }
     }
 
@@ -85,8 +100,11 @@ public class UserDaoHibernateImpl implements UserDao {
             Query query = session.createQuery(hql);
             query.executeUpdate();
             session.getTransaction().commit();
-        } catch (RuntimeException e) {
-            System.out.println("Ошибка соединения");
+        } catch (Exception e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            throw e;
         }
     }
 }
